@@ -131,7 +131,7 @@ def read_video(filename, seconds_per_frame = 10, min_value = 0, max_value=1200):
     map_factor = (max_value - min_value) / (max_theta - min_theta)
     
     # Return a list of tuples (seconds, gauge value)
-    return [(ix * seconds_per_frame, theta * map_factor) for ix, theta in angles]
+    return [(ix * seconds_per_frame, (theta - min_theta) * map_factor) for ix, theta in angles]
     
         
 
