@@ -43,15 +43,20 @@ My first version of this script was incredibly convoluted, to deal with moving r
 
 If you run the file as a script, the main function then plots the results in a graph.
 
+Next it will try to find a pivot point where the graph switches from ascending to descending.
+
+Finally it will try to curve fit log curves on the ascending and descending parts of the graph, output the found formulae and plot those over the plotted data.
+
 ## Why?
 
 I needed to plot heating and cooling curves for an oven that I was going to outfit with a control system. So I used my smartphone with a timelapse app to capture a video of the temperature gauge of the oven as it heated and cooled, at 0.1 FPS (one frame per 10 seconds). In the end I had thousands of frames, and little desire to read those all manually. I also suspected that I might have to do this again later, so I decided to dive into OpenCV a bit and see where that got me. It took me about eight hours to figure this script out. Most of that was spent on compiling OpenCV, finding out what processing options to use, in what order, and what parameters to use.
 
 In the end I learned a lot, but the most important conclusion was that I needed a better video recording. My second video recording was of much better quality (see the pointers above) and I subsequently reduced all the preprocessing steps for the video to a simple saturation mask.
 
+## Known Issues
+
+0. Curve fitting doesn't work well and gives inane results
+
 ## Tentative Roadmap
 
-I'd like to add a two features:
-
-* Find the point where the oven is switched off and starts cooling
-* Automatically find approximate polynomials for the heating and cooling curves
+* Fix the curve fitting
