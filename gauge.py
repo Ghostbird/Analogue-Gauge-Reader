@@ -133,12 +133,12 @@ def main():
     # Find the index where cooling commences
     pivot_index = 0
     n = 30
-    for i in range(2, len(data)):
+    for i in range(n, len(data)):
         if len(data) <= i + n:
-                # No pivot found at all
-                break;
+            # No pivot found at all
+            break
         # Check whether a significant descent starts within the next n entries
-        if np.mean([x[1] for x in data[i+1:i+1+n]]) < np.mean([x[1] for x in data[i-n:i]]):
+        if np.mean(T[i+1:i+1+n]) < np.mean(T[i-n:i]):
             # Check the next n entries in reverse order, until we find the first local maximum
             for j in reversed(range(i,i+n)):
                 if data[j] < data[j+1]:
@@ -146,13 +146,10 @@ def main():
                     break
             break
     
-    for s, temp in data:
-        data
-    
     curve = lambda x, a, b, c: a * np.log(b * x) + c
     
     params_heat = curve_fit(curve, t[0:pivot_index or -1], T[0:pivot_index or -1])
-    print('Heating curve:\nT = {a} log({b}x) + {c}'.format(a=params_heat[0][0], b=params_heat[0][1], c=params_heat[0][2]))
+    print('Heating curve:\nT = {} log({}x) + {}'.format(*params_heat[0]))
     t_heat = range(0,data[pivot_index or -1][0])
     heating_curve = [curve(x, params_heat[0][0], params_heat[0][1], params_heat[0][2]) for x in t_heat]
     #print(heating_curve)
@@ -160,13 +157,13 @@ def main():
     
     if pivot_index > 0:
         params_cool = curve_fit(curve, t[pivot_index:-1], T[pivot_index:-1])
-        print('Cooling curve:\nT = {a} log({b}x) + {c}'.format(a=params_cool[0][0], b=params_cool[0][1], c=params_cool[0][2]))
+        print('Cooling curve:\nT = {} log({}x) + {}'.format(*params_cool[0]))
         t_cool = range(data[pivot_index][0], data[-1][0])
         cooling_curve = [curve(x, params_cool[0][0], params_cool[0][1], params_cool[0][2]) for x in t_cool]
         #print(cooling_curve)
         axis.plot(t_cool, cooling_curve)
     
-    plt.show(fig)
+    plt.show()
     
 if __name__ == '__main__':
     main()
